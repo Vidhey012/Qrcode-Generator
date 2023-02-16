@@ -1,0 +1,113 @@
+<html>
+<head>
+<title></title>
+<style type"text/css">
+:root {
+  background: #f5f6fa;
+  color: #9c9c9c;
+  font: 1rem "PT Sans", sans-serif;
+}
+
+html,
+body,
+.container {
+  height: 99%;
+}
+
+a {
+  color: inherit;
+}
+a:hover {
+  color: #7f8ff4;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.btn {
+  display: inline-block;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  transition: all 200ms ease-in;
+  cursor: pointer;
+}
+.btn--primary {
+  background: #7f8ff4;
+  color: #fff;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  padding: 12px 36px;
+}
+.btn--primary:hover {
+  background: #6c7ff2;
+}
+.btn--primary:active {
+  background: #7f8ff4;
+  box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, 0.2);
+}
+.btn--inside {
+  margin-left: -96px;
+}
+
+.form__field {
+  width: 360px;
+  background: #fff;
+  color: #a3a3a3;
+  font: inherit;
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.1);
+  border: 0;
+  outline: 0;
+  padding: 22px 18px;
+}
+</style>
+	<script src="qrcode.js"></script>
+</head>
+<body>
+<div class="container">
+	<div class="container__item">
+		<form class="form" id="qr-generation-form">
+			<input type="url" id="qr-content" class="form__field" placeholder="Enter URL" />
+			<button type="button" class="btn btn--primary btn--inside uppercase">Generate</button>
+		</form>
+		<div id="qr-code"></div>
+	</div>
+</div>
+<script>
+let qrContentInput = document.getElementById("qr-content");
+let qrGenerationForm = document.getElementById("qr-generation-form");
+let qrCode;
+
+function generateQrCode(qrContent) {
+	return new QRCode("qr-code", {
+		text: qrContent,
+		width: 256,
+		height: 256,
+		colorDark: "#000000",
+		colorLight: "#ffffff",
+		correctLevel: QRCode.CorrectLevel.H,
+	});
+}
+qrGenerationForm.addEventListener("submit", function(event) {
+	event.preventDefault();
+	let qrContent = qrContentInput.value;
+	if(qrCode == null) {
+		qrCode = generateQrCode(qrContent);
+	} else {
+		qrCode.makeCode(qrContent);
+	}
+});
+</script>
+</body>
+</html>
