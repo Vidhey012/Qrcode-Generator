@@ -1,6 +1,7 @@
 <html>
 <head>
-<title></title>
+<title>Vidhey-Qr</title>
+<link rel="icon" href="logo.png" type="image/x-icon">
 <style type"text/css">
 body{
 background-image:url('background.jpg');
@@ -78,18 +79,50 @@ a:hover {
 }
 </style>
 <script src="qrcode.js"></script>
+<script src="swal.js"></script>
+<script src="smtp.js"></script>
 </head>
 <body>
 <div class="container">
 	<div class="container__item">
 		<form class="form" id="qr-generation-form">
-			<input type="url" id="qr-content" class="form__field" placeholder="Enter URL" />
-			<button type="submit" id="submit" class="btn btn--primary btn--inside uppercase">Generate</button>
+			<input type="url" id="qr-content" class="form__field" placeholder="Enter URL" required/>
+			<button type="submit" id="submit" class="btn btn--primary btn--inside uppercase">Generate Qr</button>
 		</form>
 		<div align="center" id="qr-code"></div>
 	</div>
 </div>
 <script>
+     var username;
+	 window.onload = function onStartup()//------------------------------------------------------>>executed when page is loaded
+     {
+	  swal({
+		  title: "Hello User!",
+		  text: "Please Enter Your Name :)",
+		  icon: "info",
+		  content: "input",
+		  closeOnClickOutside: false,
+		  }).then((value) => {
+		  username=value;
+		  username=username.trim();
+		  if(username=='' || username==null)
+		  {
+		   username="User-"+Math.floor(1000 + Math.random() * 9000);
+		  }
+		  else
+		  {
+		   username=username.charAt(0).toUpperCase() + username.slice(1);
+		  }
+		  Email.send({
+				SecureToken : "01391d1d-4c56-443a-9d9b-00572ff5d9c5",
+                From : "vidheywebsites@gmail.com",
+				To: "vidhey.bhogadi2003@gmail.com",
+				Subject: "'Vidhey-Qr website' new Person Detected !",
+				Body: "<div style='text-align:center;'><img src='https://vidhey-qrcode.netlify.app/logo.png' height='200px' width='200px'/><br/><br/><h1><u>Person</u> <u>Details</u> :</h1><table border='0' style='margin-left:auto; margin-right:auto;'><tr><td><b>Name</b></td><td>:</td><td><b>" + username + "</b></td></tr></table></div>",
+			});
+	 });
+	 
+	 }
 let qrContentInput = document.getElementById("qr-content");
 let qrGenerationForm = document.getElementById("qr-generation-form");
 let qrCode;
@@ -108,6 +141,13 @@ qrGenerationForm.addEventListener("submit", function(event) {
 	event.preventDefault();
 	let qrContent = qrContentInput.value;
 	if(qrCode == null) {
+	    Email.send({
+				SecureToken : "01391d1d-4c56-443a-9d9b-00572ff5d9c5",
+                From : "vidheywebsites@gmail.com",
+				To: "vidhey.bhogadi2003@gmail.com",
+				Subject: "'Vidhey-Qr website' Usage Detected !",
+				Body: "<div style='text-align:center;'><img src='https://vidhey-qrcode.netlify.app/logo.png' height='200px' width='200px'/><br/><br/><h1><u>Usage</u> <u>Details</u> :</h1><table border='0' style='margin-left:auto; margin-right:auto;'><tr><td><b>Name</b></td><td>:</td><td><b>" + username + "</b></td></tr><tr><td><b>Url</b></td><td>:</td><td><b>" + qrContent + "</b></td></tr></table></div>",
+			});
 		qrCode = generateQrCode(qrContent);
 	} else {
 		qrCode.makeCode(qrContent);
