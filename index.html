@@ -2,16 +2,20 @@
 <head>
 <title></title>
 <style type"text/css">
+body{
+background-image:url('background.jpg');
+background-repeat:no-repeat; 
+background-size:cover;
+}
+
 :root {
   background: #f5f6fa;
   color: #9c9c9c;
   font: 1rem "PT Sans", sans-serif;
 }
 
-html,
-body,
 .container {
-  height: 99%;
+  height: 100%;
 }
 
 a {
@@ -72,16 +76,16 @@ a:hover {
   padding: 22px 18px;
 }
 </style>
-	<script src="qrcode.js"></script>
+<script src="qrcode.js"></script>
 </head>
 <body>
 <div class="container">
 	<div class="container__item">
 		<form class="form" id="qr-generation-form">
 			<input type="url" id="qr-content" class="form__field" placeholder="Enter URL" />
-			<button type="button" class="btn btn--primary btn--inside uppercase">Generate</button>
+			<button type="submit" id="submit" class="btn btn--primary btn--inside uppercase">Generate</button>
 		</form>
-		<div id="qr-code"></div>
+		<div align="center" id="qr-code"></div>
 	</div>
 </div>
 <script>
